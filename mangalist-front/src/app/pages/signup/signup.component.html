@@ -1,37 +1,23 @@
 <app-form-card title="Register">
   <form body>
-    <div>
-      <div class="p-inputgroup">
-        <span [style]="{ color: '#fff' }" class="p-inputgroup-addon">
-          <i class="pi pi-user"></i>
-        </span>
-        <input pInputText placeholder="Username" />
-      </div>
-      <div class="p-inputgroup">
-        <span [style]="{ color: '#fff' }" class="p-inputgroup-addon">
-          <i class="pi pi-at"></i>
-        </span>
-        <input pInputText placeholder="Email" />
-      </div>
-      <div class="p-inputgroup">
-        <span [style]="{ color: '#fff' }" class="p-inputgroup-addon">
-          <i class="pi pi-lock"></i>
-        </span>
-        <input pPassword placeholder="Password" type="password" />
-      </div>
-      <div class="p-inputgroup">
-        <span [style]="{ color: '#fff' }" class="p-inputgroup-addon">
-          <i class="pi pi-lock"></i>
-        </span>
-        <input pPassword placeholder="Confirm Password" type="password" />
-      </div>
-    </div>
+    <app-input-group iconClasses="pi pi-user">
+      <input pInputText placeholder="Username" />
+    </app-input-group>
+    <app-input-group iconClasses="pi pi-at">
+      <input pInputText placeholder="Email" type="email" />
+    </app-input-group>
+    <app-password-input htmlId="password" placeholder="Password" />
+    <app-password-input
+      htmlId="confirm-password"
+      placeholder="Confirm Password"
+    />
   </form>
 
   <p-button footer icon="pi pi-check" label="Submit" type="button" />
   <p-button
     footer
-    icon="pi pi-key"
+    icon="pi pi-arrow-right"
+    iconPos="right"
     label="Login"
     routerLink="/login"
     type="button"
