@@ -1,0 +1,30 @@
+<app-form-card title="Login">
+  <form body>
+    <div class="p-inputgroup">
+      <span [style]="{ color: '#fff' }" class="p-inputgroup-addon">
+        <i class="pi pi-user"></i>
+      </span>
+      <input pInputText placeholder="Username" />
+    </div>
+    <div class="p-inputgroup">
+      <span [style]="{ color: '#fff' }" class="p-inputgroup-addon">
+        <i class="pi pi-at"></i>
+      </span>
+      <input pInputText placeholder="Email" />
+    </div>
+    <div class="p-inputgroup">
+      <span [style]="{ color: '#fff' }" class="p-inputgroup-addon">
+        <i class="pi pi-key"></i>
+      </span>
+      <input pPassword placeholder="Password" type="password" />
+    </div>
+  </form>
+  <p-button footer icon="pi pi-check" label="Submit" type="button" />
+  <p-button
+    footer
+    icon="pi pi-key"
+    label="Create Account"
+    routerLink="/signup"
+    type="button"
+  />
+</app-form-card>
