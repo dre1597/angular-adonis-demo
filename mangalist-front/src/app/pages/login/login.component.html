@@ -1,8 +1,11 @@
 <app-form-card title="Login">
   <form body>
-    <app-input-group iconClasses="pi pi-at">
-      <input pInputText placeholder="Email" type="email" />
-    </app-input-group>
+    <app-text-input
+      htmlId="email"
+      iconClasses="pi pi-at"
+      placeholder="Email"
+      type="email"
+    />
     <app-password-input htmlId="password" placeholder="Password" />
   </form>
   <p-button footer icon="pi pi-check" label="Submit" type="button" />

@@ -1,11 +1,16 @@
 <app-form-card title="Register">
   <form body>
-    <app-input-group iconClasses="pi pi-user">
-      <input pInputText placeholder="Username" />
-    </app-input-group>
-    <app-input-group iconClasses="pi pi-at">
-      <input pInputText placeholder="Email" type="email" />
-    </app-input-group>
+    <app-text-input
+      htmlId="username"
+      iconClasses="pi pi-user"
+      placeholder="Username"
+    />
+    <app-text-input
+      htmlId="email"
+      iconClasses="pi pi-at"
+      placeholder="Email"
+      type="email"
+    />
     <app-password-input htmlId="password" placeholder="Password" />
     <app-password-input
       htmlId="confirm-password"
