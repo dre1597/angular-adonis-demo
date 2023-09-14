@@ -3,13 +3,22 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { SignupModule } from './pages/signup/signup.module';
 import { LoginModule } from './pages/login/login.module';
+import { ForgotPasswordModule } from './pages/forgot-password/forgot-password.module';
+import { ResetPasswordModule } from './pages/reset-password/reset-password.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, SignupModule, LoginModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    SignupModule,
+    LoginModule,
+    ForgotPasswordModule,
+    ResetPasswordModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
