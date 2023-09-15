@@ -1,24 +1,61 @@
 <app-form-card title="Register">
-  <form body>
-    <app-text-input
-      htmlId="username"
-      iconClasses="pi pi-user"
-      placeholder="Username"
-    />
-    <app-text-input
-      htmlId="email"
-      iconClasses="pi pi-at"
-      placeholder="Email"
-      type="email"
-    />
-    <app-password-input htmlId="password" placeholder="Password" />
-    <app-password-input
-      htmlId="confirm-password"
-      placeholder="Confirm Password"
-    />
+  <form [formGroup]="form" body>
+    <span class="p-float-label">
+      <input
+        class="w-full"
+        formControlName="username"
+        id="username"
+        name="username"
+        pInputText
+      />
+      <label for="email">Username</label>
+    </span>
+
+    <span class="p-float-label mt-4">
+      <input
+        class="w-full"
+        formControlName="email"
+        id="email"
+        name="email"
+        pInputText
+        type="email"
+      />
+      <label for="email">Email</label>
+    </span>
+
+    <span class="p-float-label mt-4">
+      <input
+        [feedback]="false"
+        class="w-full"
+        formControlName="password"
+        id="password"
+        pPassword
+        type="password"
+      />
+      <label for="password">Password</label>
+    </span>
+
+    <span class="p-float-label mt-4">
+      <input
+        [feedback]="false"
+        class="w-full"
+        formControlName="confirmPassword"
+        id="confirmPassword"
+        pPassword
+        type="password"
+      />
+      <label for="confirmPassword">Confirm Password</label>
+    </span>
   </form>
 
-  <p-button footer icon="pi pi-check" label="Submit" type="button" />
+  <p-button
+    (click)="submitForm()"
+    [disabled]="!form.valid"
+    footer
+    icon="pi pi-check"
+    label="Create"
+    type="button"
+  />
   <p-button
     footer
     icon="pi pi-arrow-right"

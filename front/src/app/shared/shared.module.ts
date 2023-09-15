@@ -3,29 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { CardModule } from 'primeng/card';
-import { PasswordModule } from 'primeng/password';
-import { InputTextModule } from 'primeng/inputtext';
 
-import { FormCardComponent } from './form/form-card.component';
-import { PasswordInputComponent } from './form/password-input.component';
-import { InputGroupComponent } from './form/input-group.component';
-import { TextInputComponent } from './form/text-input.component';
+import { FormCardComponent } from './form-card.component';
 
-const primeNgModules = [CardModule, PasswordModule, InputTextModule];
+const primeNgModules = [CardModule];
 
 @NgModule({
-  declarations: [
-    FormCardComponent,
-    PasswordInputComponent,
-    InputGroupComponent,
-    TextInputComponent,
-  ],
+  declarations: [FormCardComponent],
   imports: [CommonModule, ReactiveFormsModule, ...primeNgModules],
-  exports: [
-    FormCardComponent,
-    PasswordInputComponent,
-    InputGroupComponent,
-    TextInputComponent,
-  ],
+  exports: [FormCardComponent],
 })
 export class SharedModule {}
