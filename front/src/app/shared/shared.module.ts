@@ -9,6 +9,7 @@ import { FormCardComponent } from './form/form-card.component';
 import { PasswordInputComponent } from './form/password-input.component';
 import { InputGroupComponent } from './form/input-group.component';
 import { TextInputComponent } from './form/text-input.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const primeNgModules = [CardModule, PasswordModule, InputTextModule];
 
@@ -19,7 +20,7 @@ const primeNgModules = [CardModule, PasswordModule, InputTextModule];
     InputGroupComponent,
     TextInputComponent,
   ],
-  imports: [CommonModule, ...primeNgModules],
+  imports: [CommonModule, ...primeNgModules, ReactiveFormsModule],
   exports: [
     FormCardComponent,
     PasswordInputComponent,

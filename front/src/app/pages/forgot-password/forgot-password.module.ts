@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import { SharedModule } from '../../shared/shared.module';
 import { ForgotPasswordRoutingModule } from './forgot-password-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const primeNgModules = [ButtonModule];
 
@@ -17,6 +18,7 @@ const primeNgModules = [ButtonModule];
     ForgotPasswordRoutingModule,
     RouterLink,
     SharedModule,
+    ReactiveFormsModule,
     ...primeNgModules,
   ],
 })
