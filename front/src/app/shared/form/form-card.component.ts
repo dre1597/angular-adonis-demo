@@ -5,27 +5,17 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <p-card [style]="{ width: '30%', margin: '50px auto' }">
-      <p-header class="header">
-        <h1 class="header">{{ title }}</h1>
+      <p-header class="flex justify-content-center align-content-center mb-0">
+        <h1>{{ title }}</h1>
       </p-header>
       <ng-content select="[body]"></ng-content>
       <p-footer>
-        <div class="flex justify-between">
+        <div class="flex justify-content-between">
           <ng-content select="[footer]"></ng-content>
         </div>
       </p-footer>
     </p-card>
   `,
-  styles: [
-    `
-      .header {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 0;
-      }
-    `,
-  ],
 })
 export class FormCardComponent {
   @Input({ required: true }) title!: string;
