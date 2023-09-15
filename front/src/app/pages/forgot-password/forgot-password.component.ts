@@ -8,17 +8,17 @@ import { EMAIL_REGEX } from '../../utils/regex';
   templateUrl: './forgot-password.component.html',
 })
 export class ForgotPasswordComponent implements OnInit {
-  protected forgotPasswordForm!: FormGroup;
+  protected form!: FormGroup;
 
   private readonly formBuilder = inject(FormBuilder);
 
   public ngOnInit(): void {
-    this.forgotPasswordForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern(EMAIL_REGEX)]],
     });
   }
 
   protected submitForm(): void {
-    console.log(this.forgotPasswordForm.value);
+    console.log(this.form.value);
   }
 }
