@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { CardModule } from 'primeng/card';
 
-import { FormCardComponent } from './form-card.component';
+import { FormCardComponent } from './components/form-card.component';
 
 const primeNgModules = [CardModule];
 
