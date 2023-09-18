@@ -14,6 +14,14 @@ export class SignupComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
 
   public ngOnInit(): void {
+    this.createForm();
+  }
+
+  protected submitForm(): void {
+    console.log(this.form.value);
+  }
+
+  private createForm(): void {
     this.form = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.pattern(EMAIL_REGEX)]],
@@ -36,9 +44,5 @@ export class SignupComponent implements OnInit {
         ],
       ],
     });
-  }
-
-  protected submitForm(): void {
-    console.log(this.form.value);
   }
 }

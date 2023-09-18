@@ -13,6 +13,14 @@ export class ResetPasswordComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
 
   public ngOnInit(): void {
+    this.createForm();
+  }
+
+  protected submitForm(): void {
+    console.log(this.form.value);
+  }
+
+  private createForm(): void {
     this.form = this.formBuilder.group({
       password: [
         '',
@@ -31,9 +39,5 @@ export class ResetPasswordComponent implements OnInit {
         ],
       ],
     });
-  }
-
-  protected submitForm(): void {
-    console.log(this.form.value);
   }
 }
