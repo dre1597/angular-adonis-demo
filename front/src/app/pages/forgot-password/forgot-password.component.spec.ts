@@ -27,6 +27,12 @@ describe('ForgotPasswordComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should start with an empty form', () => {
+    expect(component['form'].valid).toBeFalsy();
+
+    expect(component['form'].controls['email'].value).toBe('');
+  });
+
   it('should require email', () => {
     component['form'].setValue({
       email: '',
