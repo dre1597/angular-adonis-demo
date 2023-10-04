@@ -3,22 +3,23 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
+import { InputTextModule } from 'primeng/inputtext';
 
 import { SharedModule } from '../../shared/shared.module';
-import { ResetPasswordComponent } from './reset-password.component';
+import { SignupComponent } from './signup.component';
 
-describe('ResetPasswordComponent', () => {
-  let component: ResetPasswordComponent;
-  let fixture: ComponentFixture<ResetPasswordComponent>;
+describe('SignupComponent', () => {
+  let component: SignupComponent;
+  let fixture: ComponentFixture<SignupComponent>;
 
-  const primeNgModules = [ButtonModule, PasswordModule];
+  const primeNgModules = [ButtonModule, InputTextModule, PasswordModule];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ResetPasswordComponent],
+      declarations: [SignupComponent],
       imports: [SharedModule, ReactiveFormsModule, ...primeNgModules],
     });
-    fixture = TestBed.createComponent(ResetPasswordComponent);
+    fixture = TestBed.createComponent(SignupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -30,12 +31,80 @@ describe('ResetPasswordComponent', () => {
   it('should start with an empty form', () => {
     expect(component['form'].valid).toBeFalsy();
 
+    expect(component['form'].controls['username'].value).toBe('');
+    expect(component['form'].controls['email'].value).toBe('');
     expect(component['form'].controls['password'].value).toBe('');
     expect(component['form'].controls['confirmPassword'].value).toBe('');
   });
 
+  it('should require username', () => {
+    component['form'].setValue({
+      username: '',
+      email: 'any_email',
+      password: 'any_password',
+      confirmPassword: 'any_password',
+    });
+
+    expect(component['form'].valid).toBeFalsy();
+    expect(component['form'].controls['username'].valid).toBeFalsy();
+    expect(component['form'].controls['username'].hasError('required'));
+  });
+
+  it('should validate username length', () => {
+    component['form'].setValue({
+      username: 'a'.repeat(2),
+      email: 'any_email',
+      password: 'any_password',
+      confirmPassword: 'any_password',
+    });
+
+    expect(component['form'].valid).toBeFalsy();
+    expect(component['form'].controls['username'].valid).toBeFalsy();
+    expect(component['form'].controls['username'].hasError('minlength'));
+  });
+
+  it('should require email', () => {
+    component['form'].setValue({
+      username: 'any_username',
+      email: '',
+      password: 'any_password',
+      confirmPassword: 'any_password',
+    });
+
+    expect(component['form'].valid).toBeFalsy();
+    expect(component['form'].controls['email'].valid).toBeFalsy();
+    expect(component['form'].controls['email'].hasError('required'));
+  });
+
+  it('should require valid email', () => {
+    component['form'].setValue({
+      username: 'any_username',
+      email: 'invalid_email',
+      password: 'any_password',
+      confirmPassword: 'any_password',
+    });
+
+    expect(component['form'].valid).toBeFalsy();
+    expect(component['form'].controls['email'].valid).toBeFalsy();
+    expect(component['form'].controls['email'].hasError('pattern'));
+  });
+
+  it('should accept valid email', () => {
+    component['form'].setValue({
+      username: 'any_username',
+      email: 'any_email@example.com',
+      password: 'any_password',
+      confirmPassword: 'any_password',
+    });
+
+    expect(component['form'].valid).toBeTruthy();
+    expect(component['form'].controls['email'].valid).toBeTruthy();
+  });
+
   it('should require password', () => {
     component['form'].setValue({
+      username: 'any_username',
+      email: 'any_email',
       password: '',
       confirmPassword: 'any_password',
     });
@@ -49,6 +118,8 @@ describe('ResetPasswordComponent', () => {
 
   it('should validate password length', () => {
     component['form'].setValue({
+      username: 'any_username',
+      email: 'any_email',
       password: 'a'.repeat(5),
       confirmPassword: 'any_password',
     });
@@ -60,6 +131,8 @@ describe('ResetPasswordComponent', () => {
     ).toBeTruthy();
 
     component['form'].setValue({
+      username: 'any_username',
+      email: 'any_email',
       password: 'a'.repeat(6),
       confirmPassword: 'any_password',
     });
@@ -67,15 +140,17 @@ describe('ResetPasswordComponent', () => {
     expect(component['form'].controls['password'].valid).toBeTruthy();
 
     component['form'].setValue({
+      username: 'any_username',
+      email: 'any_email',
       password: 'a'.repeat(24),
       confirmPassword: 'any_password',
     });
 
-    expect(
-      component['form'].controls['password'].hasError('maxlength'),
-    ).toBeFalsy();
+    expect(component['form'].controls['password'].valid).toBeTruthy();
 
     component['form'].setValue({
+      username: 'any_username',
+      email: 'any_email',
       password: 'a'.repeat(25),
       confirmPassword: 'any_password',
     });
@@ -89,6 +164,8 @@ describe('ResetPasswordComponent', () => {
 
   it('should accept valid password', () => {
     component['form'].setValue({
+      username: 'any_username',
+      email: 'any_email',
       password: 'any_password',
       confirmPassword: 'any_password',
     });
@@ -98,6 +175,8 @@ describe('ResetPasswordComponent', () => {
 
   it('should require confirm password', () => {
     component['form'].setValue({
+      username: 'any_username',
+      email: 'any_email',
       password: 'any_password',
       confirmPassword: '',
     });
@@ -111,6 +190,8 @@ describe('ResetPasswordComponent', () => {
 
   it('should validate confirm password length', () => {
     component['form'].setValue({
+      username: 'any_username',
+      email: 'any_email',
       password: 'any_password',
       confirmPassword: 'a'.repeat(5),
     });
@@ -122,6 +203,8 @@ describe('ResetPasswordComponent', () => {
     ).toBeTruthy();
 
     component['form'].setValue({
+      username: 'any_username',
+      email: 'any_email',
       password: 'any_password',
       confirmPassword: 'a'.repeat(6),
     });
@@ -131,20 +214,23 @@ describe('ResetPasswordComponent', () => {
     ).toBeFalsy();
 
     component['form'].setValue({
+      username: 'any_username',
+      email: 'any_email',
       password: 'any_password',
       confirmPassword: 'a'.repeat(24),
     });
 
     expect(
-      component['form'].controls['confirmPassword'].hasError('maxlength'),
+      component['form'].controls['confirmPassword'].hasError('minlength'),
     ).toBeFalsy();
 
     component['form'].setValue({
+      username: 'any_username',
+      email: 'any_email',
       password: 'any_password',
       confirmPassword: 'a'.repeat(25),
     });
 
-    expect(component['form'].valid).toBeFalsy();
     expect(component['form'].controls['confirmPassword'].valid).toBeFalsy();
     expect(
       component['form'].controls['confirmPassword'].hasError('maxlength'),
@@ -153,6 +239,8 @@ describe('ResetPasswordComponent', () => {
 
   it('should accept valid confirm password', () => {
     component['form'].setValue({
+      username: 'any_username',
+      email: 'any_email',
       password: 'any_password',
       confirmPassword: 'any_password',
     });
@@ -162,6 +250,8 @@ describe('ResetPasswordComponent', () => {
 
   it('should validate if passwords match', () => {
     component['form'].setValue({
+      username: 'any_username',
+      email: 'any_email',
       password: 'any_password',
       confirmPassword: 'different_password',
     });
