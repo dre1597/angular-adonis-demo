@@ -26,7 +26,8 @@ export class ResetPasswordComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(8),
+          Validators.minLength(6),
+          Validators.maxLength(24),
           matchValidator('confirmPassword', true),
         ],
       ],
@@ -34,7 +35,8 @@ export class ResetPasswordComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(8),
+          Validators.minLength(6),
+          Validators.maxLength(24),
           matchValidator('password'),
         ],
       ],
