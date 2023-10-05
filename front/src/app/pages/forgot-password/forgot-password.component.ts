@@ -12,7 +12,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   private readonly formBuilder = inject(FormBuilder);
 
-  get email() {
+  protected get email() {
     return this.form.get('email');
   }
 

@@ -12,6 +12,14 @@ export class LoginComponent implements OnInit {
 
   private readonly formBuilder = inject(FormBuilder);
 
+  protected get email() {
+    return this.form.get('email');
+  }
+
+  protected get password() {
+    return this.form.get('password');
+  }
+
   public ngOnInit(): void {
     this.createForm();
   }

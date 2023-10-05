@@ -13,6 +13,22 @@ export class SignupComponent implements OnInit {
 
   private readonly formBuilder = inject(FormBuilder);
 
+  protected get username() {
+    return this.form.get('username');
+  }
+
+  protected get email() {
+    return this.form.get('email');
+  }
+
+  protected get password() {
+    return this.form.get('password');
+  }
+
+  protected get confirmPassword() {
+    return this.form.get('confirmPassword');
+  }
+
   public ngOnInit(): void {
     this.createForm();
   }

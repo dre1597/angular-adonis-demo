@@ -12,6 +12,14 @@ export class ResetPasswordComponent implements OnInit {
 
   private readonly formBuilder = inject(FormBuilder);
 
+  protected get password() {
+    return this.form.get('password');
+  }
+
+  protected get confirmPassword() {
+    return this.form.get('confirmPassword');
+  }
+
   public ngOnInit(): void {
     this.createForm();
   }
