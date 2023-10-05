@@ -106,6 +106,9 @@ devDependencies:
   karma-coverage:
     specifier: ~2.2.0
     version: 2.2.1
+  karma-firefox-launcher:
+    specifier: ^2.1.2
+    version: 2.1.2
   karma-jasmine:
     specifier: ~5.1.0
     version: 5.1.0(karma@6.4.2)
@@ -5916,6 +5919,13 @@ packages:
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /karma-firefox-launcher@2.1.2:
+    resolution: {integrity: sha512-VV9xDQU1QIboTrjtGVD4NCfzIH7n01ZXqy/qpBhnOeGVOkG5JYPEm8kuSd7psHE6WouZaQ9Ool92g8LFweSNMA==}
+    dependencies:
+      is-wsl: 2.2.0
+      which: 2.0.2
     dev: true
 
   /karma-jasmine-html-reporter@2.1.0(jasmine-core@4.6.0)(karma-jasmine@5.1.0)(karma@6.4.2):
