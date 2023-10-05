@@ -47,7 +47,9 @@ describe('SignupComponent', () => {
 
     expect(component['form'].valid).toBeFalsy();
     expect(component['form'].controls['username'].valid).toBeFalsy();
-    expect(component['form'].controls['username'].hasError('required'));
+    expect(
+      component['form'].controls['username'].hasError('required'),
+    ).toBeTruthy();
   });
 
   it('should validate username length', () => {
@@ -60,7 +62,44 @@ describe('SignupComponent', () => {
 
     expect(component['form'].valid).toBeFalsy();
     expect(component['form'].controls['username'].valid).toBeFalsy();
-    expect(component['form'].controls['username'].hasError('minlength'));
+    expect(
+      component['form'].controls['username'].hasError('minlength'),
+    ).toBeTruthy();
+
+    component['form'].setValue({
+      username: 'a'.repeat(3),
+      email: 'any_email',
+      password: 'any_password',
+      confirmPassword: 'any_password',
+    });
+
+    expect(
+      component['form'].controls['username'].hasError('minlength'),
+    ).toBeFalsy();
+
+    component['form'].setValue({
+      username: 'a'.repeat(24),
+      email: 'any_email',
+      password: 'any_password',
+      confirmPassword: 'any_password',
+    });
+
+    expect(
+      component['form'].controls['username'].hasError('maxlength'),
+    ).toBeFalsy();
+
+    component['form'].setValue({
+      username: 'a'.repeat(25),
+      email: 'any_email',
+      password: 'any_password',
+      confirmPassword: 'any_password',
+    });
+
+    expect(component['form'].valid).toBeFalsy();
+    expect(component['form'].controls['username'].valid).toBeFalsy();
+    expect(
+      component['form'].controls['username'].hasError('maxlength'),
+    ).toBeTruthy();
   });
 
   it('should require email', () => {
@@ -73,7 +112,9 @@ describe('SignupComponent', () => {
 
     expect(component['form'].valid).toBeFalsy();
     expect(component['form'].controls['email'].valid).toBeFalsy();
-    expect(component['form'].controls['email'].hasError('required'));
+    expect(
+      component['form'].controls['email'].hasError('required'),
+    ).toBeTruthy();
   });
 
   it('should require valid email', () => {
@@ -86,7 +127,9 @@ describe('SignupComponent', () => {
 
     expect(component['form'].valid).toBeFalsy();
     expect(component['form'].controls['email'].valid).toBeFalsy();
-    expect(component['form'].controls['email'].hasError('pattern'));
+    expect(
+      component['form'].controls['email'].hasError('pattern'),
+    ).toBeTruthy();
   });
 
   it('should accept valid email', () => {
