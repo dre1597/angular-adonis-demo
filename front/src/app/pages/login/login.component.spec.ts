@@ -87,7 +87,7 @@ describe('LoginComponent', () => {
   it('should validate password length', () => {
     component['form'].setValue({
       email: 'email@valid.com',
-      password: 'a'.repeat(7),
+      password: 'a'.repeat(5),
     });
 
     expect(component['form'].valid).toBeFalsy();
@@ -98,11 +98,30 @@ describe('LoginComponent', () => {
 
     component['form'].setValue({
       email: 'email@valid.com',
-      password: 'a'.repeat(8),
+      password: 'a'.repeat(6),
     });
 
     expect(component['form'].valid).toBeTruthy();
     expect(component['form'].controls['password'].valid).toBeTruthy();
+
+    component['form'].setValue({
+      email: 'email@valid.com',
+      password: 'a'.repeat(24),
+    });
+
+    expect(component['form'].valid).toBeTruthy();
+    expect(component['form'].controls['password'].valid).toBeTruthy();
+
+    component['form'].setValue({
+      email: 'email@valid.com',
+      password: 'a'.repeat(25),
+    });
+
+    expect(component['form'].valid).toBeFalsy();
+    expect(component['form'].controls['password'].valid).toBeFalsy();
+    expect(
+      component['form'].controls['password'].hasError('maxlength'),
+    ).toBeTruthy();
   });
 
   it('should accept valid password', () => {
