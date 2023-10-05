@@ -30,6 +30,12 @@ const routes: Routes = [
       ),
     title: 'Reset Password',
   },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./pages/home/home.module').then((m) => m.HomeModule),
+    title: 'Home',
+  },
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
 ];
 

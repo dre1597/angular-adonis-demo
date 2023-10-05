@@ -5,6 +5,7 @@ import { SignupModule } from './pages/signup/signup.module';
 import { LoginModule } from './pages/login/login.module';
 import { ForgotPasswordModule } from './pages/forgot-password/forgot-password.module';
 import { ResetPasswordModule } from './pages/reset-password/reset-password.module';
+import { HomeModule } from './pages/home/home.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +19,7 @@ import { AppComponent } from './app.component';
     LoginModule,
     ForgotPasswordModule,
     ResetPasswordModule,
+    HomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
