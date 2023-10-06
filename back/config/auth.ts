@@ -101,7 +101,7 @@ const authConfig: AuthConfig = {
         | that time.
         |
         */
-        model: () => import('App/Models/User'),
+        model: () => import('../app/Models/User'),
       },
     },
     jwt: {
@@ -121,7 +121,7 @@ const authConfig: AuthConfig = {
         driver: 'lucid',
         identifierKey: 'id',
         uids: [],
-        model: () => import('App/Models/User'),
+        model: () => import('../app/Models/User'),
       },
     },
   },

@@ -1,15 +1,15 @@
 import { DateTime } from 'luxon';
 import Hash from '@ioc:Adonis/Core/Hash';
 import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm';
-import { v4 as uuid } from 'uuid';
-import { beforeCreate } from '@adonisjs/lucid/build/src/Orm/Decorators';
 
 export default class User extends BaseModel {
   @column({
     isPrimary: true,
-    consume: (_value, _attribute, model) => model.$getAttribute('id'),
   })
-  public id: string;
+  public id: number;
+
+  @column()
+  public publicId: string;
 
   @column()
   public username: string;
@@ -28,11 +28,6 @@ export default class User extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime;
-
-  @beforeCreate()
-  public static async setID(user: User) {
-    user.id = uuid();
-  }
 
   @beforeSave()
   public static async hashPassword(user: User) {
