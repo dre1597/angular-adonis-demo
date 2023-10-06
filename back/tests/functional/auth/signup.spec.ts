@@ -146,3 +146,98 @@ test.group('Auth - SignUp - Email', (group) => {
     });
   });
 });
+
+test.group('Auth - SignUp - Password', (group) => {
+  group.each.teardown(async () => {
+    await Database.rawQuery('DELETE FROM "users"');
+  });
+
+  test('should be required', async ({ client }) => {
+    const response = await client.post('/signup').json({
+      username: 'username',
+      email: 'email@example.com',
+      password: '',
+    });
+
+    response.assertStatus(422);
+    response.assertBodyContains({
+      errors: [
+        {
+          field: 'password',
+          message: 'password is required',
+          rule: 'required',
+        },
+      ],
+    });
+  });
+
+  test('should be at least 6 characters', async ({ client }) => {
+    const response = await client.post('/signup').json({
+      username: 'username',
+      email: 'email@example.com',
+      password: 'a'.repeat(5),
+    });
+
+    response.assertStatus(422);
+
+    response.assertBodyContains({
+      errors: [
+        {
+          field: 'password',
+          message: 'password must be at least 6 characters',
+          rule: 'minLength',
+        },
+      ],
+    });
+  });
+
+  test('should be at most 24 characters', async ({ client }) => {
+    const response = await client.post('/signup').json({
+      username: 'username',
+      email: 'email@example.com',
+      password: 'password'.repeat(25),
+    });
+
+    response.assertStatus(422);
+
+    response.assertBodyContains({
+      errors: [
+        {
+          field: 'password',
+          message: 'password must be at most 24 characters',
+          rule: 'maxLength',
+        },
+      ],
+    });
+  });
+
+  test('should be valid', async ({ client }) => {
+    const response = await client.post('/signup').json({
+      username: 'username',
+      email: 'email@example.com',
+      password: 'password',
+    });
+
+    response.assertStatus(200);
+  });
+
+  test('the password should be hashed', async ({ client, assert }) => {
+    const email = 'email@example.com';
+    const password = 'password';
+
+    const response = await client.post('/signup').json({
+      username: 'username',
+      email,
+      password,
+    });
+
+    response.assertStatus(200);
+
+    const createdUser = await Database.rawQuery('SELECT password FROM "users" WHERE "email" = ?', [
+      email,
+    ]);
+
+    assert.notEqual(createdUser[0].password, password);
+    assert.include(createdUser[0].password, '$scrypt$');
+  });
+});
