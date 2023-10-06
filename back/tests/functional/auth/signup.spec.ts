@@ -1,13 +1,13 @@
 import { test } from '@japa/runner';
-import TestUtils from '@ioc:Adonis/Core/TestUtils';
+import Database from '@ioc:Adonis/Lucid/Database';
 
-test.group('Auth signup', (group) => {
-  group.each.setup(async () => {
-    await TestUtils.db().truncate();
+test.group('Auth - SignUp - Username', (group) => {
+  group.each.teardown(async () => {
+    await Database.rawQuery('DELETE FROM "users"');
   });
 
-  test('should validate username', async ({ client }) => {
-    let response = await client.post('/signup').json({
+  test('should be required', async ({ client }) => {
+    const response = await client.post('/signup').json({
       username: '',
       email: 'email@example.com',
       password: 'password',
@@ -23,8 +23,10 @@ test.group('Auth signup', (group) => {
         },
       ],
     });
+  });
 
-    response = await client.post('/signup').json({
+  test('should be at least 3 characters', async ({ client }) => {
+    const response = await client.post('/signup').json({
       username: 'a'.repeat(2),
       email: 'email@example.com',
       password: 'password',
@@ -40,8 +42,10 @@ test.group('Auth signup', (group) => {
         },
       ],
     });
+  });
 
-    response = await client.post('/signup').json({
+  test('should be at most 24 characters', async ({ client }) => {
+    const response = await client.post('/signup').json({
       username: 'a'.repeat(25),
       email: 'email@example.com',
       password: 'password',
@@ -57,18 +61,26 @@ test.group('Auth signup', (group) => {
         },
       ],
     });
+  });
 
-    response = await client.post('/signup').json({
-      username: 'a'.repeat(24),
+  test('should be valid', async ({ client }) => {
+    const response = await client.post('/signup').json({
+      username: 'username',
       email: 'email@example.com',
       password: 'password',
     });
 
     response.assertStatus(200);
   });
+});
 
-  test('should validate email', async ({ client }) => {
-    let response = await client.post('/signup').json({
+test.group('Auth - SignUp - Email', (group) => {
+  group.each.teardown(async () => {
+    await Database.rawQuery('DELETE FROM "users"');
+  });
+
+  test('should be required', async ({ client }) => {
+    const response = await client.post('/signup').json({
       username: 'username',
       email: '',
       password: 'password',
@@ -84,25 +96,10 @@ test.group('Auth signup', (group) => {
         },
       ],
     });
+  });
 
-    response = await client.post('/signup').json({
-      username: 'username',
-      email: 'invalid_email',
-      password: 'password',
-    });
-
-    response.assertStatus(422);
-    response.assertBodyContains({
-      errors: [
-        {
-          field: 'email',
-          message: 'email must be a valid email',
-          rule: 'email',
-        },
-      ],
-    });
-
-    response = await client.post('/signup').json({
+  test('should be unique', async ({ client }) => {
+    let response = await client.post('/signup').json({
       username: 'username',
       email: 'email@example.com',
       password: 'password',
@@ -117,12 +114,33 @@ test.group('Auth signup', (group) => {
     });
 
     response.assertStatus(422);
+
     response.assertBodyContains({
       errors: [
         {
           field: 'email',
           message: 'email must be unique',
           rule: 'unique',
+        },
+      ],
+    });
+  });
+
+  test('should be valid', async ({ client }) => {
+    const response = await client.post('/signup').json({
+      username: 'username',
+      email: 'invalid_email',
+      password: 'password',
+    });
+
+    response.assertStatus(422);
+
+    response.assertBodyContains({
+      errors: [
+        {
+          field: 'email',
+          message: 'email must be a valid email',
+          rule: 'email',
         },
       ],
     });
