@@ -46,6 +46,7 @@
     "@types/luxon": "^3.3.2",
     "@types/node": "^20.8.4",
     "@types/proxy-addr": "^2.0.0",
+    "@types/sinon": "^10.0.19",
     "@types/source-map-support": "^0.5.7",
     "@types/uuid": "^9.0.4",
     "adonis-preset-ts": "^2.1.0",
