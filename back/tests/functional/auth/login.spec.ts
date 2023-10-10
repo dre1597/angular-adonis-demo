@@ -23,6 +23,25 @@ test.group('Auth - Login - Email', (group) => {
       ],
     });
   });
+
+  test('should be valid', async ({ client }) => {
+    const response = await client.post('/login').json({
+      email: 'invalid_email',
+      password: 'password',
+    });
+
+    response.assertStatus(422);
+
+    response.assertBodyContains({
+      errors: [
+        {
+          field: 'email',
+          message: 'email must be a valid email',
+          rule: 'email',
+        },
+      ],
+    });
+  });
 });
 
 test.group('Auth - Login - Password', (group) => {
