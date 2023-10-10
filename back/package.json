@@ -7,7 +7,7 @@
     "build": "node ace build --production",
     "start": "node server.js",
     "test": "node ace test",
-    "test:coverage": "nyc npm run test",
+    "test:coverage": "nyc --reporter=lcov --reporter=text npm run test",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write ."
   },
