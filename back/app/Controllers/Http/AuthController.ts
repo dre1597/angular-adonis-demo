@@ -3,7 +3,11 @@ import SignUpValidator from '../../Validators/SignUpValidator';
 import User from '../../Models/User';
 import { v4 as uuid } from 'uuid';
 import Logger from '@ioc:Adonis/Core/Logger';
+import Mail from '@ioc:Adonis/Addons/Mail';
 import LoginValidator from '../../Validators/LoginValidator';
+import ForgotPasswordValidator from '../../Validators/ForgotPasswordValidator';
+import { DateTime } from 'luxon';
+import Env from '@ioc:Adonis/Core/Env';
 
 export default class AuthController {
   public async signUp({ request, response }: HttpContextContract) {
@@ -42,5 +46,35 @@ export default class AuthController {
       refreshToken: token.refreshToken,
       user: payload,
     };
+  }
+
+  public async forgotPassword({ request }: HttpContextContract) {
+    const data = await request.validate(ForgotPasswordValidator);
+
+    const user = await User.findByOrFail('email', data.email);
+
+    user.forgotPasswordToken = uuid();
+    user.forgotPasswordTokenExpiresAt = DateTime.now().plus({ hours: 3 });
+
+    await user.save();
+
+    if (Env.get('NODE_ENV') === 'test') {
+      return;
+    }
+
+    await Mail.sendLater((message) => {
+      message
+        .from('example@email.com')
+        .to(user.email)
+        .subject('Forgot Password')
+        .htmlView('emails/forgot_password', {
+          username: user.username,
+          url: `${Env.get('FRONTEND_URL', 'http://localhost:3000')}?token=${
+            user.forgotPasswordToken
+          }`,
+        });
+
+      Logger.info(`Forgot password email was sent to ${user.email}`);
+    });
   }
 }
