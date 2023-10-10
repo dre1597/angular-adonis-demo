@@ -1,5 +1,6 @@
 import { test } from '@japa/runner';
 import Database from '@ioc:Adonis/Lucid/Database';
+import User from '../../../app/Models/User';
 
 test.group('Auth - SignUp - Username', (group) => {
   group.each.teardown(async () => {
@@ -239,5 +240,31 @@ test.group('Auth - SignUp - Password', (group) => {
 
     assert.notEqual(createdUser[0].password, password);
     assert.include(createdUser[0].password, '$scrypt$');
+  });
+});
+
+test.group('Auth - SignUp - Success', (group) => {
+  group.each.teardown(async () => {
+    await Database.rawQuery('DELETE FROM "users"');
+  });
+
+  test('should return the user with the tokens', async ({ client, assert }) => {
+    const user = {
+      username: 'username',
+      email: 'email@example.com',
+      password: 'password',
+    };
+
+    await client.post('/signup').json(user);
+
+    const createdUser = await User.findByOrFail('email', user.email);
+
+    assert.exists(createdUser.id);
+    assert.exists(createdUser.publicId);
+    assert.equal(createdUser.email, user.email);
+    assert.equal(createdUser.username, user.username);
+    assert.notEqual(createdUser.password, user.password);
+    assert.exists(createdUser.createdAt);
+    assert.exists(createdUser.updatedAt);
   });
 });
