@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
@@ -7,6 +8,7 @@ import { InputTextModule } from 'primeng/inputtext';
 
 import { SharedModule } from '../../shared/shared.module';
 import { SignupComponent } from './signup.component';
+import { SignupService } from './signup.service';
 
 describe('SignupComponent', () => {
   let component: SignupComponent;
@@ -17,7 +19,13 @@ describe('SignupComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SignupComponent],
-      imports: [SharedModule, ReactiveFormsModule, ...primeNgModules],
+      imports: [
+        SharedModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        ...primeNgModules,
+      ],
+      providers: [SignupService],
     });
     fixture = TestBed.createComponent(SignupComponent);
     component = fixture.componentInstance;

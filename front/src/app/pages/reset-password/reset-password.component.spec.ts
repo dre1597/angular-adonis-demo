@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
@@ -16,7 +17,12 @@ describe('ResetPasswordComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ResetPasswordComponent],
-      imports: [SharedModule, ReactiveFormsModule, ...primeNgModules],
+      imports: [
+        SharedModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        ...primeNgModules,
+      ],
     });
     fixture = TestBed.createComponent(ResetPasswordComponent);
     component = fixture.componentInstance;

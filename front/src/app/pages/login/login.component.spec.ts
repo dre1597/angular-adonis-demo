@@ -1,9 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { ToastModule } from 'primeng/toast';
 
 import { SharedModule } from '../../shared/shared.module';
 import { LoginComponent } from './login.component';
@@ -12,12 +14,22 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
-  const primeNgModules = [ButtonModule, PasswordModule, InputTextModule];
+  const primeNgModules = [
+    ButtonModule,
+    PasswordModule,
+    InputTextModule,
+    ToastModule,
+  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
-      imports: [SharedModule, ReactiveFormsModule, ...primeNgModules],
+      imports: [
+        SharedModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        ...primeNgModules,
+      ],
     });
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
