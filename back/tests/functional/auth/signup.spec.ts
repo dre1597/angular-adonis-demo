@@ -1,6 +1,8 @@
 import { test } from '@japa/runner';
 import Database from '@ioc:Adonis/Lucid/Database';
+
 import User from '../../../app/Models/User';
+import { HttpStatus } from '../../../app/Utils/http-status.enum';
 
 test.group('Auth - SignUp - Username', (group) => {
   group.each.teardown(async () => {
@@ -14,7 +16,7 @@ test.group('Auth - SignUp - Username', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
     response.assertBodyContains({
       errors: [
         {
@@ -33,7 +35,7 @@ test.group('Auth - SignUp - Username', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
     response.assertBodyContains({
       errors: [
         {
@@ -52,7 +54,7 @@ test.group('Auth - SignUp - Username', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
     response.assertBodyContains({
       errors: [
         {
@@ -71,7 +73,7 @@ test.group('Auth - SignUp - Username', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(200);
+    response.assertStatus(HttpStatus.OK);
   });
 });
 
@@ -87,7 +89,7 @@ test.group('Auth - SignUp - Email', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
     response.assertBodyContains({
       errors: [
         {
@@ -106,7 +108,7 @@ test.group('Auth - SignUp - Email', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(200);
+    response.assertStatus(HttpStatus.OK);
 
     response = await client.post('/signup').json({
       username: 'username',
@@ -114,7 +116,7 @@ test.group('Auth - SignUp - Email', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
 
     response.assertBodyContains({
       errors: [
@@ -134,7 +136,7 @@ test.group('Auth - SignUp - Email', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
 
     response.assertBodyContains({
       errors: [
@@ -160,7 +162,7 @@ test.group('Auth - SignUp - Password', (group) => {
       password: '',
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
     response.assertBodyContains({
       errors: [
         {
@@ -179,7 +181,7 @@ test.group('Auth - SignUp - Password', (group) => {
       password: 'a'.repeat(5),
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
 
     response.assertBodyContains({
       errors: [
@@ -199,7 +201,7 @@ test.group('Auth - SignUp - Password', (group) => {
       password: 'password'.repeat(25),
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
 
     response.assertBodyContains({
       errors: [
@@ -219,7 +221,7 @@ test.group('Auth - SignUp - Password', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(200);
+    response.assertStatus(HttpStatus.OK);
   });
 
   test('the password should be hashed', async ({ client, assert }) => {
@@ -232,7 +234,7 @@ test.group('Auth - SignUp - Password', (group) => {
       password,
     });
 
-    response.assertStatus(200);
+    response.assertStatus(HttpStatus.OK);
 
     const createdUser = await Database.rawQuery('SELECT password FROM "users" WHERE "email" = ?', [
       email,

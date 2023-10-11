@@ -2,6 +2,7 @@ import { test } from '@japa/runner';
 import Database from '@ioc:Adonis/Lucid/Database';
 import { v4 as uuid } from 'uuid';
 import User from '../../../app/Models/User';
+import { HttpStatus } from '../../../app/Utils/http-status.enum';
 
 test.group('Auth - Forgot Password - Email', (group) => {
   group.each.teardown(async () => {
@@ -13,7 +14,7 @@ test.group('Auth - Forgot Password - Email', (group) => {
       email: '',
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
     response.assertBodyContains({
       errors: [
         {
@@ -30,7 +31,7 @@ test.group('Auth - Forgot Password - Email', (group) => {
       email: 'invalid_email',
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
 
     response.assertBodyContains({
       errors: [
@@ -55,7 +56,7 @@ test.group('Auth - Forgot Password - Email', (group) => {
       email: 'email@example.com',
     });
 
-    response.assertStatus(200);
+    response.assertStatus(HttpStatus.OK);
 
     const user = await User.findByOrFail('email', 'email@example.com');
 

@@ -3,6 +3,7 @@ import Database from '@ioc:Adonis/Lucid/Database';
 import { v4 as uuid } from 'uuid';
 import User from '../../../app/Models/User';
 import { DateTime } from 'luxon';
+import { HttpStatus } from '../../../app/Utils/http-status.enum';
 
 test.group('Auth - Reset Password - Token', (group) => {
   group.each.teardown(async () => {
@@ -15,7 +16,7 @@ test.group('Auth - Reset Password - Token', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
     response.assertBodyContains({
       errors: [
         {
@@ -33,7 +34,7 @@ test.group('Auth - Reset Password - Token', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
     response.assertBodyContains({
       errors: [
         {
@@ -51,7 +52,7 @@ test.group('Auth - Reset Password - Token', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(404);
+    response.assertStatus(HttpStatus.NOT_FOUND);
   });
 });
 
@@ -66,7 +67,7 @@ test.group('Auth - Reset Password - Password', (group) => {
       password: '',
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
     response.assertBodyContains({
       errors: [
         {
@@ -84,7 +85,7 @@ test.group('Auth - Reset Password - Password', (group) => {
       password: 'a'.repeat(5),
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
 
     response.assertBodyContains({
       errors: [
@@ -103,7 +104,7 @@ test.group('Auth - Reset Password - Password', (group) => {
       password: 'password'.repeat(25),
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
 
     response.assertBodyContains({
       errors: [
@@ -122,7 +123,7 @@ test.group('Auth - Reset Password - Password', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(404);
+    response.assertStatus(HttpStatus.NOT_FOUND);
   });
 });
 
@@ -148,7 +149,7 @@ test.group('Auth - Reset Password - Failure', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(403);
+    response.assertStatus(HttpStatus.FORBIDDEN);
     response.assertBodyContains({
       error: 'Token expired',
     });
@@ -177,7 +178,7 @@ test.group('Auth - Reset Password - Success', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(200);
+    response.assertStatus(HttpStatus.OK);
 
     const updatedUser = await User.findByOrFail('email', 'email@example.com');
 

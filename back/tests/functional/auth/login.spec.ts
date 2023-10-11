@@ -1,5 +1,6 @@
 import { test } from '@japa/runner';
 import Database from '@ioc:Adonis/Lucid/Database';
+import { HttpStatus } from '../../../app/Utils/http-status.enum';
 
 test.group('Auth - Login - Email', (group) => {
   group.each.teardown(async () => {
@@ -12,7 +13,7 @@ test.group('Auth - Login - Email', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
     response.assertBodyContains({
       errors: [
         {
@@ -30,7 +31,7 @@ test.group('Auth - Login - Email', (group) => {
       password: 'password',
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
 
     response.assertBodyContains({
       errors: [
@@ -55,7 +56,7 @@ test.group('Auth - Login - Password', (group) => {
       password: '',
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
     response.assertBodyContains({
       errors: [
         {
@@ -73,7 +74,7 @@ test.group('Auth - Login - Password', (group) => {
       password: 'a'.repeat(5),
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
 
     response.assertBodyContains({
       errors: [
@@ -92,7 +93,7 @@ test.group('Auth - Login - Password', (group) => {
       password: 'password'.repeat(25),
     });
 
-    response.assertStatus(422);
+    response.assertStatus(HttpStatus.UNPROCESSABLE_ENTITY);
 
     response.assertBodyContains({
       errors: [
