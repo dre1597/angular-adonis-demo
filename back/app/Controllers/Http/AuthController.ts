@@ -94,6 +94,10 @@ export default class AuthController {
 
     const user = await User.findByOrFail('forgotPasswordToken', data.token);
 
+    if (user?.forgotPasswordTokenExpiresAt && user.forgotPasswordTokenExpiresAt < DateTime.now()) {
+      return response.forbidden({ error: 'Token expired' });
+    }
+
     try {
       user.password = data.password;
       user.forgotPasswordToken = null;

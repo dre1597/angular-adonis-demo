@@ -126,6 +126,35 @@ test.group('Auth - Reset Password - Password', (group) => {
   });
 });
 
+test.group('Auth - Reset Password - Failure', (group) => {
+  group.each.teardown(async () => {
+    await Database.rawQuery('DELETE FROM "users"');
+  });
+
+  test('should check token expiration', async ({ client }) => {
+    const token = uuid();
+
+    await User.create({
+      username: 'username',
+      email: 'email@example.com',
+      password: 'password',
+      publicId: uuid(),
+      forgotPasswordToken: token,
+      forgotPasswordTokenExpiresAt: DateTime.now().minus({ hours: 3 }),
+    });
+
+    const response = await client.post('/reset-password').json({
+      token,
+      password: 'password',
+    });
+
+    response.assertStatus(403);
+    response.assertBodyContains({
+      error: 'Token expired',
+    });
+  });
+});
+
 test.group('Auth - Reset Password - Success', (group) => {
   group.each.teardown(async () => {
     await Database.rawQuery('DELETE FROM "users"');
