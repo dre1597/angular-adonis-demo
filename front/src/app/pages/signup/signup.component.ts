@@ -1,17 +1,25 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { EMAIL_REGEX } from '../../utils/regex';
 import { matchValidator } from '../../utils/confirm-password.validator';
+import { SignupService } from './signup.service';
+
+type SignUpForm = {
+  username: FormControl<string>;
+  email: FormControl<string>;
+  password: FormControl<string>;
+  confirmPassword: FormControl<string>;
+};
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
 })
 export class SignupComponent implements OnInit {
-  protected form!: FormGroup;
+  protected form!: FormGroup<SignUpForm>;
 
-  private readonly formBuilder = inject(FormBuilder);
+  private readonly signupService = inject(SignupService);
 
   protected get username() {
     return this.form.get('username');
@@ -34,38 +42,46 @@ export class SignupComponent implements OnInit {
   }
 
   protected submitForm(): void {
-    console.log(this.form.value);
+    const values = this.form.value;
+    this.signupService.signUp(
+      values.username!,
+      values.email!,
+      values.password!,
+    );
   }
 
   private createForm(): void {
-    this.form = this.formBuilder.group({
-      username: [
-        '',
-        [
+    this.form = new FormGroup<SignUpForm>({
+      username: new FormControl<string>('', {
+        nonNullable: true,
+        validators: [
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(24),
         ],
-      ],
-      email: ['', [Validators.required, Validators.pattern(EMAIL_REGEX)]],
-      password: [
-        '',
-        [
+      }),
+      email: new FormControl<string>('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.pattern(EMAIL_REGEX)],
+      }),
+      password: new FormControl<string>('', {
+        nonNullable: true,
+        validators: [
           Validators.required,
           Validators.minLength(6),
           Validators.maxLength(24),
           matchValidator('confirmPassword', true),
         ],
-      ],
-      confirmPassword: [
-        '',
-        [
+      }),
+      confirmPassword: new FormControl<string>('', {
+        nonNullable: true,
+        validators: [
           Validators.required,
           Validators.minLength(6),
           Validators.maxLength(24),
           matchValidator('password'),
         ],
-      ],
+      }),
     });
   }
 }
