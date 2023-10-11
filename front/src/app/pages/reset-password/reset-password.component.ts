@@ -1,5 +1,13 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { matchValidator } from '../../utils/confirm-password.validator';
 
@@ -7,10 +15,14 @@ import { matchValidator } from '../../utils/confirm-password.validator';
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit, AfterViewInit {
   protected form!: FormGroup;
 
+  private readonly destroyRef = inject(DestroyRef);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private token?: string;
 
   protected get password() {
     return this.form.get('password');
@@ -24,8 +36,24 @@ export class ResetPasswordComponent implements OnInit {
     this.createForm();
   }
 
+  public ngAfterViewInit(): void {
+    this.activatedRoute.queryParams
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        if (!params['token']) {
+          this.router.navigate(['/login'], {
+            queryParams: {
+              missingToken: true,
+            },
+          });
+        }
+        this.token = params['token'];
+      });
+  }
+
   protected submitForm(): void {
     console.log(this.form.value);
+    console.log(this.token);
   }
 
   private createForm(): void {
