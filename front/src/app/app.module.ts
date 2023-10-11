@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -10,6 +10,11 @@ import { HomeModule } from './pages/home/home.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { EnvService } from './services/env.service';
+
+export const envFactory = (envService: EnvService) => {
+  return () => envService.loadEnv();
+};
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +28,14 @@ import { AppComponent } from './app.component';
     ResetPasswordModule,
     HomeModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: envFactory,
+      deps: [EnvService],
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
