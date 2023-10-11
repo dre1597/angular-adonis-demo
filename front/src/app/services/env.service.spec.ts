@@ -16,4 +16,16 @@ describe('EnvService', () => {
   it('should be created', async () => {
     expect(service).toBeTruthy();
   });
+
+  it('should load env', async () => {
+    expect(service.env).toBeFalsy();
+    await service.loadEnv();
+    expect(service.env).toBeTruthy();
+  });
+
+  it('should have api url', async () => {
+    await service.loadEnv();
+    expect(service.env).toBeTruthy();
+    expect(service.env?.apiUrl).toBeDefined();
+  });
 });
