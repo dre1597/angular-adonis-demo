@@ -8,7 +8,7 @@ test.group('Auth - Login - Email', (group) => {
   });
 
   test('should be required', async ({ client }) => {
-    const response = await client.post('/login').json({
+    const response = await client.post('/auth/login').json({
       email: '',
       password: 'password',
     });
@@ -26,7 +26,7 @@ test.group('Auth - Login - Email', (group) => {
   });
 
   test('should be valid', async ({ client }) => {
-    const response = await client.post('/login').json({
+    const response = await client.post('/auth/login').json({
       email: 'invalid_email',
       password: 'password',
     });
@@ -51,7 +51,7 @@ test.group('Auth - Login - Password', (group) => {
   });
 
   test('should be required', async ({ client }) => {
-    const response = await client.post('/login').json({
+    const response = await client.post('/auth/login').json({
       email: 'email@example.com',
       password: '',
     });
@@ -69,7 +69,7 @@ test.group('Auth - Login - Password', (group) => {
   });
 
   test('should be at least 6 characters', async ({ client }) => {
-    const response = await client.post('/login').json({
+    const response = await client.post('/auth/login').json({
       email: 'email@example.com',
       password: 'a'.repeat(5),
     });
@@ -88,7 +88,7 @@ test.group('Auth - Login - Password', (group) => {
   });
 
   test('should be at most 24 characters', async ({ client }) => {
-    const response = await client.post('/login').json({
+    const response = await client.post('/auth/login').json({
       email: 'email@example.com',
       password: 'password'.repeat(25),
     });
@@ -119,7 +119,7 @@ test.group('Auth - Login - Success', (group) => {
       password: 'password',
     });
 
-    const response = await client.post('/login').json({
+    const response = await client.post('/auth/login').json({
       email: 'email@example.com',
       password: 'password',
     });

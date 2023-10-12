@@ -11,7 +11,7 @@ test.group('Auth - Reset Password - Token', (group) => {
   });
 
   test('should be required', async ({ client }) => {
-    const response = await client.post('/reset-password').json({
+    const response = await client.post('/auth/reset-password').json({
       token: '',
       password: 'password',
     });
@@ -29,7 +29,7 @@ test.group('Auth - Reset Password - Token', (group) => {
   });
 
   test('should be uuid', async ({ client }) => {
-    const response = await client.post('/reset-password').json({
+    const response = await client.post('/auth/reset-password').json({
       token: 'invalid_token',
       password: 'password',
     });
@@ -47,7 +47,7 @@ test.group('Auth - Reset Password - Token', (group) => {
   });
 
   test('should be valid', async ({ client }) => {
-    const response = await client.post('/reset-password').json({
+    const response = await client.post('/auth/reset-password').json({
       token: uuid(),
       password: 'password',
     });
@@ -62,7 +62,7 @@ test.group('Auth - Reset Password - Password', (group) => {
   });
 
   test('should be required', async ({ client }) => {
-    const response = await client.post('/reset-password').json({
+    const response = await client.post('/auth/reset-password').json({
       token: uuid(),
       password: '',
     });
@@ -80,7 +80,7 @@ test.group('Auth - Reset Password - Password', (group) => {
   });
 
   test('should be at least 6 characters', async ({ client }) => {
-    const response = await client.post('/reset-password').json({
+    const response = await client.post('/auth/reset-password').json({
       token: uuid(),
       password: 'a'.repeat(5),
     });
@@ -99,7 +99,7 @@ test.group('Auth - Reset Password - Password', (group) => {
   });
 
   test('should be at most 24 characters', async ({ client }) => {
-    const response = await client.post('/reset-password').json({
+    const response = await client.post('/auth/reset-password').json({
       token: uuid(),
       password: 'password'.repeat(25),
     });
@@ -118,7 +118,7 @@ test.group('Auth - Reset Password - Password', (group) => {
   });
 
   test('should be valid', async ({ client }) => {
-    const response = await client.post('/reset-password').json({
+    const response = await client.post('/auth/reset-password').json({
       token: uuid(),
       password: 'password',
     });
@@ -144,7 +144,7 @@ test.group('Auth - Reset Password - Failure', (group) => {
       forgotPasswordTokenExpiresAt: DateTime.now().minus({ hours: 3 }),
     });
 
-    const response = await client.post('/reset-password').json({
+    const response = await client.post('/auth/reset-password').json({
       token,
       password: 'password',
     });
@@ -173,7 +173,7 @@ test.group('Auth - Reset Password - Success', (group) => {
       forgotPasswordTokenExpiresAt: DateTime.now().plus({ hours: 3 }),
     });
 
-    const response = await client.post('/reset-password').json({
+    const response = await client.post('/auth/reset-password').json({
       token,
       password: 'password',
     });

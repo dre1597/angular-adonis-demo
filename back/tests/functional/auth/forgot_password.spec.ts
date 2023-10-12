@@ -10,7 +10,7 @@ test.group('Auth - Forgot Password - Email', (group) => {
   });
 
   test('should be required', async ({ client }) => {
-    const response = await client.post('/forgot-password').json({
+    const response = await client.post('/auth/forgot-password').json({
       email: '',
     });
 
@@ -27,7 +27,7 @@ test.group('Auth - Forgot Password - Email', (group) => {
   });
 
   test('should be valid', async ({ client }) => {
-    const response = await client.post('/forgot-password').json({
+    const response = await client.post('/auth/forgot-password').json({
       email: 'invalid_email',
     });
 
@@ -52,7 +52,7 @@ test.group('Auth - Forgot Password - Email', (group) => {
       password: 'password',
     });
 
-    const response = await client.post('/forgot-password').json({
+    const response = await client.post('/auth/forgot-password').json({
       email: 'email@example.com',
     });
 

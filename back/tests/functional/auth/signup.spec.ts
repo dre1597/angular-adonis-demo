@@ -10,7 +10,7 @@ test.group('Auth - SignUp - Username', (group) => {
   });
 
   test('should be required', async ({ client }) => {
-    const response = await client.post('/signup').json({
+    const response = await client.post('/auth/signup').json({
       username: '',
       email: 'email@example.com',
       password: 'password',
@@ -29,7 +29,7 @@ test.group('Auth - SignUp - Username', (group) => {
   });
 
   test('should be at least 3 characters', async ({ client }) => {
-    const response = await client.post('/signup').json({
+    const response = await client.post('/auth/signup').json({
       username: 'a'.repeat(2),
       email: 'email@example.com',
       password: 'password',
@@ -48,7 +48,7 @@ test.group('Auth - SignUp - Username', (group) => {
   });
 
   test('should be at most 24 characters', async ({ client }) => {
-    const response = await client.post('/signup').json({
+    const response = await client.post('/auth/signup').json({
       username: 'a'.repeat(25),
       email: 'email@example.com',
       password: 'password',
@@ -67,7 +67,7 @@ test.group('Auth - SignUp - Username', (group) => {
   });
 
   test('should be valid', async ({ client }) => {
-    const response = await client.post('/signup').json({
+    const response = await client.post('/auth/signup').json({
       username: 'username',
       email: 'email@example.com',
       password: 'password',
@@ -83,7 +83,7 @@ test.group('Auth - SignUp - Email', (group) => {
   });
 
   test('should be required', async ({ client }) => {
-    const response = await client.post('/signup').json({
+    const response = await client.post('/auth/signup').json({
       username: 'username',
       email: '',
       password: 'password',
@@ -102,7 +102,7 @@ test.group('Auth - SignUp - Email', (group) => {
   });
 
   test('should be unique', async ({ client }) => {
-    let response = await client.post('/signup').json({
+    let response = await client.post('/auth/signup').json({
       username: 'username',
       email: 'email@example.com',
       password: 'password',
@@ -110,7 +110,7 @@ test.group('Auth - SignUp - Email', (group) => {
 
     response.assertStatus(HttpStatus.OK);
 
-    response = await client.post('/signup').json({
+    response = await client.post('/auth/signup').json({
       username: 'username',
       email: 'email@example.com',
       password: 'password',
@@ -130,7 +130,7 @@ test.group('Auth - SignUp - Email', (group) => {
   });
 
   test('should be valid', async ({ client }) => {
-    const response = await client.post('/signup').json({
+    const response = await client.post('/auth/signup').json({
       username: 'username',
       email: 'invalid_email',
       password: 'password',
@@ -156,7 +156,7 @@ test.group('Auth - SignUp - Password', (group) => {
   });
 
   test('should be required', async ({ client }) => {
-    const response = await client.post('/signup').json({
+    const response = await client.post('/auth/signup').json({
       username: 'username',
       email: 'email@example.com',
       password: '',
@@ -175,7 +175,7 @@ test.group('Auth - SignUp - Password', (group) => {
   });
 
   test('should be at least 6 characters', async ({ client }) => {
-    const response = await client.post('/signup').json({
+    const response = await client.post('/auth/signup').json({
       username: 'username',
       email: 'email@example.com',
       password: 'a'.repeat(5),
@@ -195,7 +195,7 @@ test.group('Auth - SignUp - Password', (group) => {
   });
 
   test('should be at most 24 characters', async ({ client }) => {
-    const response = await client.post('/signup').json({
+    const response = await client.post('/auth/signup').json({
       username: 'username',
       email: 'email@example.com',
       password: 'password'.repeat(25),
@@ -215,7 +215,7 @@ test.group('Auth - SignUp - Password', (group) => {
   });
 
   test('should be valid', async ({ client }) => {
-    const response = await client.post('/signup').json({
+    const response = await client.post('/auth/signup').json({
       username: 'username',
       email: 'email@example.com',
       password: 'password',
@@ -228,7 +228,7 @@ test.group('Auth - SignUp - Password', (group) => {
     const email = 'email@example.com';
     const password = 'password';
 
-    const response = await client.post('/signup').json({
+    const response = await client.post('/auth/signup').json({
       username: 'username',
       email,
       password,
@@ -257,7 +257,7 @@ test.group('Auth - SignUp - Success', (group) => {
       password: 'password',
     };
 
-    await client.post('/signup').json(user);
+    await client.post('/auth/signup').json(user);
 
     const createdUser = await User.findByOrFail('email', user.email);
 
