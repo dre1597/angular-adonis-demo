@@ -1,6 +1,9 @@
 import { test } from '@japa/runner';
 import Database from '@ioc:Adonis/Lucid/Database';
+import { v4 as uuid } from 'uuid';
+
 import { HttpStatus } from '../../../app/Utils/http-status.enum';
+import User from '../../../app/Models/User';
 
 test.group('Auth - Login - Email', (group) => {
   group.each.teardown(async () => {
@@ -113,7 +116,8 @@ test.group('Auth - Login - Success', (group) => {
   });
 
   test('should return the user with the tokens', async ({ client, assert }) => {
-    await client.post('/signup').json({
+    await User.create({
+      publicId: uuid(),
       username: 'username',
       email: 'email@example.com',
       password: 'password',
