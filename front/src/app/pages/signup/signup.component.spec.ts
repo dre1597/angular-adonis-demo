@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
+import { ToastModule } from 'primeng/toast';
 
 import { SharedModule } from '../../shared/shared.module';
 import { SignupComponent } from './signup.component';
@@ -14,7 +15,12 @@ describe('SignupComponent', () => {
   let component: SignupComponent;
   let fixture: ComponentFixture<SignupComponent>;
 
-  const primeNgModules = [ButtonModule, InputTextModule, PasswordModule];
+  const primeNgModules = [
+    ButtonModule,
+    InputTextModule,
+    PasswordModule,
+    ToastModule,
+  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
