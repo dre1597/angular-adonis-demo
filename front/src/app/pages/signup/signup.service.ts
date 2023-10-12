@@ -1,8 +1,10 @@
 import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 import { EnvService } from '../../services/env.service';
 
-type UserRegister = {
+type SignUpProps = {
   username: string;
   email: string;
   password: string;
@@ -11,9 +13,10 @@ type UserRegister = {
 @Injectable()
 export class SignupService {
   private readonly envService = inject(EnvService);
+  private readonly http = inject(HttpClient);
 
-  public signUp(username: string, email: string, password: string) {
-    console.log(username, email, password);
-    console.log(this.envService.env);
+  public signup(user: SignUpProps): Observable<void> {
+    const baseUrl = this.envService.env?.apiUrl + '/auth/signup';
+    return this.http.post<void>(baseUrl, user);
   }
 }

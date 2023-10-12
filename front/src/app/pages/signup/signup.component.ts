@@ -1,5 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { MessageService } from 'primeng/api';
 
 import { EMAIL_REGEX } from '../../utils/regex';
 import { matchValidator } from '../../utils/confirm-password.validator';
@@ -15,11 +18,14 @@ type SignUpForm = {
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
+  providers: [MessageService],
 })
 export class SignupComponent implements OnInit {
   protected form!: FormGroup<SignUpForm>;
 
+  private readonly destroyRef = inject(DestroyRef);
   private readonly signupService = inject(SignupService);
+  private readonly messageService = inject(MessageService);
 
   protected get username() {
     return this.form.get('username');
@@ -43,11 +49,31 @@ export class SignupComponent implements OnInit {
 
   protected submitForm(): void {
     const values = this.form.value;
-    this.signupService.signUp(
-      values.username!,
-      values.email!,
-      values.password!,
-    );
+
+    this.signupService
+      .signup({
+        username: values.username!,
+        email: values.email!,
+        password: values.password!,
+      })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'You have successfully signed up',
+          });
+          this.form.reset();
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error || 'Something went wrong',
+          });
+        },
+      });
   }
 
   private createForm(): void {

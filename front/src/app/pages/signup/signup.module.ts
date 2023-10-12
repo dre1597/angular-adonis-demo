@@ -6,13 +6,19 @@ import { HttpClientModule } from '@angular/common/http';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { ToastModule } from 'primeng/toast';
 
 import { SignupComponent } from './signup.component';
 import { SignupRoutingModule } from './signup-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { SignupService } from './signup.service';
 
-const primeNgModules = [ButtonModule, InputTextModule, PasswordModule];
+const primeNgModules = [
+  ButtonModule,
+  InputTextModule,
+  PasswordModule,
+  ToastModule,
+];
 
 @NgModule({
   declarations: [SignupComponent],

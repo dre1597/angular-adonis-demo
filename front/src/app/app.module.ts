@@ -1,6 +1,7 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { SignupModule } from './pages/signup/signup.module';
 import { LoginModule } from './pages/login/login.module';
@@ -11,6 +12,7 @@ import { HomeModule } from './pages/home/home.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EnvService } from './services/env.service';
+import { ErrorIntercept } from './interceptors/error.interceptor';
 
 export const envFactory = (envService: EnvService) => {
   return () => envService.loadEnv();
@@ -33,6 +35,11 @@ export const envFactory = (envService: EnvService) => {
       provide: APP_INITIALIZER,
       useFactory: envFactory,
       deps: [EnvService],
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorIntercept,
       multi: true,
     },
   ],
